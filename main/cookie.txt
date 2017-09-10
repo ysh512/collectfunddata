@@ -2,4 +2,4 @@
 # http://curl.haxx.se/rfc/cookie_spec.html
 # This is a generated file!  Do not edit.
 
-fund.eastmoney.com	FALSE	/	FALSE		ASP.NET_SessionId	pimpnf3uajy1hg4v4fjprw40
+fund.eastmoney.com	FALSE	/	FALSE		ASP.NET_SessionId	nq1xamt3d0us1dppnf0umyn2

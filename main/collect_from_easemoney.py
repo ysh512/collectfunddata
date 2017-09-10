@@ -1,14 +1,15 @@
-import urllib
+ # -*- coding:utf-8 -*-
+
 import urllib.request
-import re
-import http.cookiejar
 from http import cookiejar
+import demjson
+
 
 test_url="http://www.baidu.com"
 
 url_entry="http://fund.eastmoney.com/fund.html"
 
-url = "http://fund.eastmoney.com/Data/Fund_JJJZ_Data.aspx?t=1^&lx=1^&letter=^&gsid=^&text=^&sort=zdf,desc^&page=1,9999^&feature=^|^&dt=1504853601803^&atfc=^&onlySale=0" 
+url = "http://fund.eastmoney.com/Data/Fund_JJJZ_Data.aspx?t=1&lx=1&letter=&gsid=&text=&sort=zdf,desc&page=1,9999&feature=|&dt=1505041417229&atfc=&onlySale=0" 
 #-H "Accept-Encoding: gzip, deflate" -H "Accept-Language: zh-CN,zh;q=0.8" 
 #-H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36" 
 #-H "Accept: */*" 
@@ -21,27 +22,26 @@ cookie_filename="cookie.txt"
 
 if __name__ == '__main__':
     
-    print("*****************************")
-    print("visit:"+url_entry)
+
     cookie = cookiejar.MozillaCookieJar(cookie_filename)
     handler=urllib.request.HTTPCookieProcessor(cookie)
     
     opener = urllib.request.build_opener(handler)
     
-    headers={
-        "Accept-Encoding":"gzip, deflate",
-        'Accept-Language':"zh-CN,zh;q=0.8",
-        "User-Agent":"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36",
-        "Accept":"*/*",
-        "Referer":"http://fund.eastmoney.com/fund.html",
-        "Connection":"keep-alive"
-        }
+#     headers={
+#         "Accept-Encoding":"gzip, deflate",
+#         'Accept-Language':"zh-CN,zh;q=0.8",
+#         "User-Agent":"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36",
+#         "Accept":"*/*",
+#         "Referer":"http://fund.eastmoney.com/fund.html",
+#         "Connection":"keep-alive"
+#         }
    # opener.addheaders(headers)
     
     entry_response =opener.open(url)
     
-    print("***************************")
-    print("save cookie")
+
+
     for item in cookie:
         print("name="+item.name)
         print("value="+item.value)
@@ -51,7 +51,16 @@ if __name__ == '__main__':
     
     
     result = opener.open(url)
-    print(result.read())
+    
+    u=result.read().decode(encoding='utf-8', errors='strict')[7:]
+    
+#     print(u)
+    
+    ju=demjson.decode(u,"gb2312")
+    
+    print("*******************fund datas************************")
+    
+    print(ju['datas'])
     
     
     print()
